@@ -2,15 +2,24 @@
 var express = require('express')
 var app = express()
 
-app.locals.title = "Secret Box"
+
 app.set('port', process.env.PORT || 3000)
+app.locals.title = "Secret Box"
+app.locals.secrets = {ghost: "Boo!"}
 
 app.get('/', function(request, response) {
-  response.send('It\'s a secret to everyone.')
+  response.send(app.locals.title)
 })
 
-// set the port for Express to run on
+app.get('/api/secrets/:id', function(request, response) {
+  var id = request.params.id
+  var message = app.locals.secrets[id]
 
+  if(!message) {
+    return response.sendStatus(404)
+  }
+  response.json({id, message})
+})
 
 if(!module.parent){
   app.listen(app.get('port'), function() {
