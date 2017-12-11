@@ -26,7 +26,12 @@ app.get('/api/secrets/:id', function(request, response) {
 })
 
 app.post('/api/secrets', function(request, response) {
-  response.status(201).end()
+  var id = Date.now()
+  var message = request.body.message
+
+  app.locals.secrets[id] = message
+
+  response.json({id, message})
 })
 
 if(!module.parent){

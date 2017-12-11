@@ -83,6 +83,19 @@ describe('Server', function() {
         done()
       })
     })
+
+    it('should receive and store data', function(done) {
+      var newSecret = { message: "Pineapples on pizza is an abomination"}
+
+      this.request.post('/api/secrets', {form: newSecret}, function(error, response) {
+        if (error) { done(error) }
+
+        var secretCount = Object.keys(app.locals.secrets).length
+
+        assert.equal(secretCount, 1, `Expected 1 seret, found ${secretCount} secrets`)
+        done()
+      })
+    })
   })
 
 
