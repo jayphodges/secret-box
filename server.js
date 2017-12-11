@@ -1,11 +1,15 @@
 // server.js
 var express = require('express')
 var app = express()
+var bodyParser = require('body-parser')
 
 
 app.set('port', process.env.PORT || 3000)
 app.locals.title = "Secret Box"
 app.locals.secrets = {ghost: "Boo!"}
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/', function(request, response) {
   response.send(app.locals.title)
