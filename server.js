@@ -29,6 +29,12 @@ app.post('/api/secrets', function(request, response) {
   var id = Date.now()
   var message = request.body.message
 
+  if(!message) {
+    return response.status(422).send({
+      error: 'No message property provided'
+    })
+  }
+  
   app.locals.secrets[id] = message
 
   response.json({id, message})
